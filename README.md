@@ -1,220 +1,491 @@
-# Kitchen Sink [![renovate-app badge][renovate-badge]][renovate-app] [![semantic-release][semantic-image] ][semantic-url]
+# Todo Playwright Automation Assessment
 
-This is an example app used to showcase [Cypress.io](https://www.cypress.io/) End-to-End (E2E) testing. The application demonstrates the use of most [Cypress API commands](https://on.cypress.io/api). Additionally this example app is configured to run E2E tests in various CI platforms.
-Several workflows demonstrate the CI use of [Cypress Docker images](https://github.com/cypress-io/cypress-docker-images) which provide convenient, pre-configured compatible environments for Cypress.
-The [tests](https://github.com/cypress-io/cypress-example-kitchensink/tree/master/cypress/e2e) are also heavily commented.
+Playwright TypeScript automation solution for the Todo application from the Cypress Example Kitchen Sink repository.
 
-To see the kitchen sink application, and to view the [Cypress API commands](https://on.cypress.io/api) demonstrated by the app, visit [example.cypress.io](https://example.cypress.io/).
+The project focuses exclusively on the Todo application and demonstrates functional UI test coverage, test isolation, parallel execution, CI integration, Docker execution, failure evidence, and Allure reporting with history and trends.
 
-For a full reference of our documentation, go to [docs.cypress.io](https://docs.cypress.io/).
+## Repository
 
-For an example payment application demonstrating real-world usage of Cypress.io End-to-End (E2E) testing, go to the [cypress-io/cypress-realworld-app](https://github.com/cypress-io/cypress-realworld-app) repository.
+https://github.com/innastef/todo-playwright-automation-assessment
 
-[renovate-badge]: https://img.shields.io/badge/renovate-enabled-brightgreen.svg?logo=renovatebot
-[renovate-app]: https://renovatebot.com/
-[semantic-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-url]: https://github.com/semantic-release/semantic-release
+## Tech Stack
 
-## CI Status
+- Playwright
+- TypeScript
+- Node.js
+- Docker
+- GitHub Actions
+- Allure Report
 
-The following table lists live workflows from various CI providers. These each independently test the contents of this example repository. They run and record using [Cypress Cloud](https://on.cypress.io/guides/cloud/introduction) with their results displaying centrally under Cypress Cloud [ProjectId `4b7344`](https://cloud.cypress.io/#/projects/4b7344/runs). Each CI provider shows its build status on its own site:
+## Application Under Test
 
-| CI Provider                                            | Workflow                                       | Build Status                                                            |   Docker example   |
-| :----------------------------------------------------- | :--------------------------------------------- | :---------------------------------------------------------------------- | :----------------: |
-| [CircleCI][CircleCi docs]                              | [.circleci/config.yml][CircleCI workflow]      | [![CircleCI][CircleCI badge]][CircleCI log]                             | :white_check_mark: |
-| [**cypress-io/github-action**][Cy GitHub Actions docs] | [using-action.yml][Cy GitHub Actions workflow] | [![Cypress GHA status][Cy GitHub Actions badge]][Cy GitHub Actions log] |                    |
-| [GitHub Actions][GHA docs]                             | [single.yml][GHA workflow single]              | [![Single tests status][GHA badge single]][GHA log single]              |                    |
-| [GitHub Actions][GHA docs]                             | [parallel.yml][GHA workflow parallel]          | [![Parallel tests status][GHA badge parallel]][GHA log parallel]        |                    |
+The Todo application is part of the Cypress Example Kitchen Sink repository:
 
-<!-- CI provider links -->
-[CircleCI docs]:            https://circleci.com/docs/
-[CircleCI badge]:           https://circleci.com/gh/cypress-io/cypress-example-kitchensink/tree/master.svg?style=shield
-[CircleCI log]:             https://circleci.com/gh/cypress-io/cypress-example-kitchensink/tree/master
-[CircleCI workflow]:        .circleci/config.yml
+https://github.com/cypress-io/cypress-example-kitchensink
 
-[Cy GitHub Actions docs]:   https://github.com/cypress-io/github-action#readme
-[Cy GitHub Actions badge]:  https://github.com/cypress-io/cypress-example-kitchensink/actions/workflows/using-action.yml/badge.svg
-[Cy GitHub Actions log]:    https://github.com/cypress-io/cypress-example-kitchensink/actions/workflows/using-action.yml?query=branch%3Amaster
-[Cy GitHub Actions workflow]:  .github/workflows/using-action.yml
+Application URL when running locally:
 
-[GHA docs]:      https://docs.github.com/en/actions
-[GHA badge single]:     https://github.com/cypress-io/cypress-example-kitchensink/actions/workflows/single.yml/badge.svg
-[GHA badge parallel]:     https://github.com/cypress-io/cypress-example-kitchensink/actions/workflows/parallel.yml/badge.svg
-[GHA log single]:       https://github.com/cypress-io/cypress-example-kitchensink/actions/workflows/single.yml?query=branch%3Amaster
-[GHA log parallel]:       https://github.com/cypress-io/cypress-example-kitchensink/actions/workflows/parallel.yml?query=branch%3Amaster
-[GHA workflow single]:  .github/workflows/single.yml
-[GHA workflow parallel]:  .github/workflows/parallel.yml
+`http://127.0.0.1:8080/todo`
 
-You can find all CI results recorded on the Cypress Cloud
-[![Cypress Cloud](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/4b7344/master&style=flat&logo=cypress)](https://cloud.cypress.io/projects/4b7344/runs)
+The original Cypress examples are not part of the submitted automation solution.
 
-## CI Workflow Examples
+---
 
-This table shows additional examples of CI workflows. With the exception of GitHub Actions workflows, these are **not** live examples as in the table above and they may require modification before use. The GitHub Actions workflows are live and they run without recording to Cypress Cloud.
+## Test Approach
 
-| CI Provider                                           | Basic Config                                             | Full Parallel Config                                 |   Docker example   |
-| :---------------------------------------------------- | :------------------------------------------------------- | :--------------------------------------------------- | :----------------: |
-| [AWS Amplify][AWS Amplify docs]                       | [amplify.yml](amplify.yml)                               |                                                      |                    |
-| [AWS CodeBuild][AWS CodeBuild docs]                   | [basic/buildspec.yml](./basic/buildspec.yml)             | [buildspec.yml](buildspec.yml)                       |                    |
-| [Azure Pipelines][Azure Pipelines docs]               | [basic/azure-ci.yml](basic/azure-ci.yml)                 | [azure-ci.yml](azure-ci.yml)                         |                    |
-| [Buddy.works][Buddy.works docs]                       | [buddy.yml](buddy.yml)                                   |                                                      | :white_check_mark: |
-| [Buildkite][Buildkite docs]                           | [.buildkite/pipeline.yml](.buildkite/pipeline.yml)       |                                                      |                    |
-| [CircleCI][CircleCi docs]                             | [basic/.circleci/config.yml](basic/.circleci/config.yml) |                                                      | :white_check_mark: |
-| [GitHub Actions][GHA docs]                            | [chrome.yml](.github/workflows/chrome.yml)               |                                                      |                    |
-| [GitHub Actions][GHA docs]                            | [chrome-docker.yml](.github/workflows/chrome-docker.yml) |                                                      | :white_check_mark: |
-| [GitLab][GitLab docs]                                 | [basic/.gitlab-ci.yml](basic/.gitlab-ci.yml)             | [.gitlab-ci.yml](.gitlab-ci.yml)                     | :white_check_mark: |
-| [Jenkins][Jenkins docs]                               | [basic/Jenkinsfile](basic/Jenkinsfile)                   | [Jenkinsfile](Jenkinsfile)                           | :white_check_mark: |
-| [Semaphore 2.0][Semaphore 2.0 docs]                   | [basic/.semaphore.yml](basic/.semaphore.yml)             | [.semaphore/semaphore.yml](.semaphore/semaphore.yml) |                    |
-| [Travis CI][Travis CI docs]                           | [basic/.travis.yml](basic/.travis.yml)                   | [.travis.yml](.travis.yml)                           |                    |
+The goal of the suite is to provide meaningful confidence in the core Todo functionality while keeping the tests maintainable, independent, and suitable for parallel execution.
 
-<!-- CI provider doc links -->
-[AWS Amplify docs]:             https://docs.amplify.aws/
-[AWS CodeBuild docs]:           https://docs.aws.amazon.com/codebuild/
-[Azure Pipelines docs]:         https://learn.microsoft.com/en-us/azure/devops/pipelines/
-[Buddy.works docs]:             https://buddy.works/docs
-[Buildkite docs]:               https://buildkite.com/docs
-[GitLab docs]:                  https://docs.gitlab.com/ee/ci/yaml/
-[Jenkins docs]:                 https://www.jenkins.io/doc/
-[Semaphore 2.0 docs]:           https://docs.semaphoreci.com/
-[Travis CI docs]:               https://docs.travis-ci.com/
+### Priorities
 
-The Cypress documentation page [CI Provider Examples](https://docs.cypress.io/guides/continuous-integration/ci-provider-examples) provides some more examples with extensive guides for using Cypress with some of the most popular CI providers.
+Testing focuses primarily on user-critical Todo workflows:
 
-## Run Tests
+1. Creating Todos
+2. Completing and reopening Todos
+3. Editing Todos
+4. Deleting Todos
+5. Bulk actions
+6. Filtering
+7. Persistence after reload
+8. Correct Todo counter and UI state
 
-### Local testing
+The suite also validates important state transitions rather than only checking that elements are visible.
 
-To run the tests from this repo on your local machine, first make sure your machine meets the [Cypress System Requirements](https://on.cypress.io/guides/getting-started/installing-cypress#System-requirements), including the installation of [Node.js](https://docs.cypress.io/guides/getting-started/installing-cypress#Installing-Nodejs) according to the version specified in the file [.node-version](./.node-version).
+Examples include:
 
-Executing the following instructions will clone the repository, install dependencies and run Cypress:
+- checkbox state
+- `completed` CSS state
+- Todo counter updates
+- filter selection
+- filter URL changes
+- persistence after reload
 
-```shell
-git clone https://github.com/cypress-io/cypress-example-kitchensink.git
-cd cypress-example-kitchensink
-npm ci # install dependencies
-npm run local:run # run Cypress headlessly
+### Test Design
+
+The tests follow several principles:
+
+- Tests are independent and can run in parallel.
+- Each test prepares the state it requires.
+- Page Object Model is used to separate UI interaction logic from test assertions.
+- Assertions remain in the test specifications.
+- Playwright auto-waiting and web-first assertions are preferred over hard-coded waits.
+- User-facing locators are preferred where practical.
+- Known product defects are represented with `test.fixme()` rather than weakening the expected assertions.
+
+---
+
+## Test Coverage
+
+The suite currently contains **16 test scenarios** across three specification files.
+
+### Todo Management
+
+- Displays the default Todos
+- Adds a new Todo
+- Rejects a whitespace-only Todo
+- Completes and reopens a Todo
+- Completes only the selected default Todo
+- Edits and saves a Todo
+- Cancels Todo editing
+- Deletes an individual Todo
+- Deletes "Walk the dog" without affecting other Todos
+- Marks all Todos as completed and active
+- Clears completed Todos
+- Clears all completed default Todos
+
+### Todo Filters
+
+- Displays only active Todos
+- Displays only completed Todos
+- Displays all Todos after using another filter
+
+### Todo Persistence
+
+- Preserves Todo changes after page reload
+
+At the time of submission:
+
+- **12 tests pass**
+- **4 tests are marked as `fixme` due to reproducible product defects**
+
+The `fixme` tests preserve the expected behavior and document why the scenarios cannot currently pass.
+
+---
+
+## Known Quality Findings
+
+During exploratory testing and automation implementation, several issues were identified around the default Todo items.
+
+Examples include:
+
+- Completing "Walk the dog" can incorrectly affect the state of "Pay electric bill".
+- Deleting "Walk the dog" removes "Pay electric bill" instead.
+- Toggle All does not correctly complete all default Todos.
+- Clearing completed default Todos can leave "Walk the dog" behind.
+
+Some symptoms may share the same underlying root cause, so they should not automatically be treated as separate defects without further investigation.
+
+The most relevant finding has been documented as a GitHub Issue:
+
+**Deleting "Walk the dog" removes the wrong Todo**
+
+https://github.com/innastef/todo-playwright-automation-assessment/issues/1
+
+The corresponding expected behavior remains covered by an automated test marked with `test.fixme()`.
+
+---
+
+## Project Structure
+
+```text
+todo-playwright-automation-assessment/
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
+├── app/
+├── scripts/
+├── tests/
+│   ├── pages/
+│   │   └── todo.page.ts
+│   └── specs/
+│       ├── todo-management.spec.ts
+│       ├── todo-filters.spec.ts
+│       └── todo-persistence.spec.ts
+├── .dockerignore
+├── .gitignore
+├── Dockerfile
+├── package.json
+├── package-lock.json
+├── playwright.config.ts
+├── tsconfig.json
+└── README.md
 ```
 
-`local:run` is a [package.json](./package.json) script that starts a local webserver and then uses [cypress run](https://on.cypress.io/command-line#cypress-run) to run Cypress headlessly.
-If you would like to run Cypress tests interactively, then run the following command which uses [cypress open](https://on.cypress.io/command-line#cypress-open) to run Cypress in headed mode. You can pick individual tests to run.
+---
 
-```shell
-npm run local:open
+## Prerequisites
+
+For local execution:
+
+- Node.js
+- npm
+
+For containerized execution:
+
+- Docker
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/innastef/todo-playwright-automation-assessment.git
+cd todo-playwright-automation-assessment
 ```
 
-As an alternative to using the `local:open` and `local:run` scripts, you can also start the server in one step and then run Cypress in a second step.
+Install dependencies:
 
-```shell
-npm start # start server on port 8080
-```
-
-You can check that the server is running if you open a web browser and navigate to `http://localhost:8080`.
-
-Then in a separate terminal window execute either
-
-```shell
-npx cypress run # for headless mode
-```
-
-or
-
-```shell
-npx cypress open # for headed interactive mode
-```
-
-#### Script and server structure
-
-The scripts `local:run` and `local:open` use the `start-test` alias of the npm module [start-server-and-test](https://www.npmjs.com/package/start-server-and-test) to run [./scripts/start.js](./scripts/start.js), which starts the webserver, waits for it to become ready, and then launches Cypress.
-
-The `start` script spawns a webserver using the npm module [serve](https://www.npmjs.com/package/serve) and displays the Kitchen Sink App on port `8080`.
-
-### Docker testing
-
-If you have Docker installed locally, for instance using [Docker Desktop](https://docs.docker.com/desktop/), you can run the tests from this repo interactively in a Docker container.
-Use [Cypress Docker images](https://github.com/cypress-io/cypress-docker-images), which are built with all the prerequisites for running Cypress. They are available as [base](https://github.com/cypress-io/cypress-docker-images/tree/master/base), [browsers](https://github.com/cypress-io/cypress-docker-images/tree/master/browsers) and [included](https://github.com/cypress-io/cypress-docker-images/tree/master/included) options from [Docker Hub](https://hub.docker.com/u/cypress) and the [Amazon ECR (Elastic Container Registry) Public Gallery](https://gallery.ecr.aws/cypress-io).
-
-As above, start by cloning the repo and installing dependencies:
-
-```shell
-git clone https://github.com/cypress-io/cypress-example-kitchensink
-cd cypress-example-kitchensink
+```bash
 npm ci
 ```
 
-NOTE: For simplicity, the Docker examples below use a repository reference such as `cypress/base` with the `latest` version tag. To select an earlier version, replace `latest` with an explicit tag, for example `cypress/base:20.15.1`. Explicit version tags are recommended for production. Usage is further explained in the [Tags](https://github.com/cypress-io/cypress-docker-images/blob/master/README.md#tags) section of the [Cypress Docker Images - README](https://github.com/cypress-io/cypress-docker-images/blob/master/README.md).
+Install Chromium:
 
-#### cypress/base
-
-The following example uses a [cypress/base](https://github.com/cypress-io/cypress-docker-images/tree/master/base) image which itself contains no browsers. You will use the Electron browser bundled with Cypress instead. To run the Docker container, execute the following:
-
-```shell
-docker run -it --rm -v .:/app -w /app cypress/base:latest
+```bash
+npx playwright install chromium
 ```
 
-When the container prompt appears, enter:
+---
 
-```shell
-npx cypress install     # install Cypress binary
-npm run test:ci         # start server and run tests in Electron browser
-exit
+## Running the Tests
+
+Run the complete suite:
+
+```bash
+npm test
 ```
 
-#### cypress/browsers
+The application does not need to be started manually when running the Playwright suite.
 
-With a [cypress/browsers](https://github.com/cypress-io/cypress-docker-images/tree/master/browsers) image you have the additional choice of Chrome, Edge and Firefox browsers. Execute the following:
+The Playwright `webServer` configuration automatically starts the application and waits until the Todo application is available before executing the tests.
 
-```shell
-docker run -it --rm -v .:/app -w /app cypress/browsers:latest
+### TypeScript validation
+
+```bash
+npm run typecheck
 ```
 
-When the container prompt appears, enter:
+### Headed execution
 
-```shell
-npx cypress install     # install Cypress binary
-npm run test:ci         # start server and run tests in Electron browser
-npm run test:ci:chrome  # start server and run tests in Chrome browser
-npm run test:ci:edge    # start server and run tests in Edge browser
-npm run test:ci:firefox # start server and run tests in Firefox browser
-exit
+```bash
+npm run test:headed
 ```
 
-#### cypress/included
+### Playwright UI mode
 
-The [cypress/included](https://github.com/cypress-io/cypress-docker-images/tree/master/included) images add a full Cypress installation compared to [cypress/browsers](https://github.com/cypress-io/cypress-docker-images/tree/master/browsers).
-Execute the following to run the container with a one-line command, testing with the Chrome browser:
-
-```shell
-docker run -it --rm -v .:/app -w /app --entrypoint bash cypress/included:latest -c 'npm run test:ci:chrome' # use for matching Cypress versions
+```bash
+npm run test:ui
 ```
 
-Replace the `latest` tag in the above command using the Cypress version from the repo's [package.json](./package.json), if this repository has not yet been updated to the latest released Cypress version.
-Note that mismatched versions will cause errors.
+### List tests
 
-NOTE: Additional browsers Chrome, Edge and Firefox are installed in `linux/amd64` architecture images `cypress/browsers` and `cypress/included`.
-Firefox is available pre-installed for `linux/arm64` architecture images based on Firefox `>=136.0.2`.
-Refer to the [Cypress Docker images README](https://github.com/cypress-io/cypress-docker-images/blob/master/README.md#browsers) for details.
-The Electron browser, which is built-in to Cypress, is available in all images and architectures.
+```bash
+npm run test:list
+```
 
-### CI Testing
+---
 
-If you would like to try out running tests in a Continuous Integration (CI) provider then you need to first [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) so that you have your own copy. Refer to the [GitHub documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#configuring-git-to-sync-your-fork-with-the-upstream-repository) to set up aliases for `remote upstream` (to this repo) and `remote origin` (to your fork) correctly.
-You will also need to have an account with the CI provider you want to test with.
+## Parallel Execution
 
-## Documentation
+The Playwright configuration uses:
 
-- Use the [Cypress Documentation](https://on.cypress.io) for instructions on how to use Cypress
-- Read the [Command Line Guide](https://on.cypress.io/command-line) for run options
-- Refer to the [API](https://on.cypress.io/api/) documents to understand the Cypress API calls tested in this repo
-- Read [Installing Cypress](https://on.cypress.io/installing-cypress) for step-by-step information on installing Cypress in your own project
+```ts
+fullyParallel: true
+```
 
-## Support
+Tests are designed to be independent so they can safely execute concurrently.
 
-- For "how-to" questions and discussions, go to the Cypress [Discord Chat](https://on.cypress.io/discord) and be part of the worldwide user community!
+In CI, the worker count is explicitly controlled to keep execution predictable:
 
-## Contributing
+```ts
+workers: process.env.CI ? 2 : undefined
+```
 
-Check out the [Contributing Guideline](./CONTRIBUTING.md).
+For debugging, tests can also be executed serially:
 
-## Changelog
+```bash
+npx playwright test --workers=1
+```
 
-See [Releases](https://github.com/cypress-io/cypress-example-kitchensink/releases).
+---
+
+## Reporting
+
+Allure is used as the primary test report instead of relying only on Playwright's default HTML report.
+
+It was selected because the assessment requires:
+
+- understandable test results
+- failure information
+- evidence
+- historical execution data
+- trends
+- CI availability
+
+Playwright also retains additional debugging evidence on failure:
+
+- trace
+- screenshot
+- video
+
+The configuration uses:
+
+```ts
+trace: 'retain-on-failure'
+screenshot: 'only-on-failure'
+video: 'retain-on-failure'
+```
+
+### Allure Report
+
+The latest CI-generated Allure report is available through GitHub Pages:
+
+https://innastef.github.io/todo-playwright-automation-assessment
+
+### Generate Allure report locally
+
+First execute the tests:
+
+```bash
+npm test
+```
+
+Generate the report:
+
+```bash
+npm run allure:generate
+```
+
+Open it:
+
+```bash
+npm run allure:open
+```
+
+Raw Allure results are generated in:
+
+```text
+allure-results/
+```
+
+The generated report is stored in:
+
+```text
+allure-report/
+```
+
+---
+
+## CI/CD
+
+GitHub Actions executes the assessment suite automatically on pushes and pull requests targeting `main`.
+
+The CI pipeline:
+
+1. Checks out the repository
+2. Sets up Node.js
+3. Installs dependencies using `npm ci`
+4. Installs Chromium and required system dependencies
+5. Runs TypeScript validation
+6. Executes the Playwright suite
+7. Restores previous Allure history when available
+8. Generates the Allure report
+9. Uploads Allure results and report artifacts
+10. Uploads Playwright failure evidence
+11. Publishes the Allure report through GitHub Pages
+
+Allure history from previous CI executions is preserved so historical results and trends can be built across runs.
+
+Artifacts are uploaded even when test execution fails so failure evidence remains available for investigation.
+
+---
+
+## Docker
+
+The project includes a Docker image containing the application, Playwright tests, Node dependencies, browser dependencies, and required runtime environment.
+
+Build the image:
+
+```bash
+docker build -t todo-playwright-tests .
+```
+
+Run the assessment suite inside the container:
+
+```bash
+docker run --rm todo-playwright-tests
+```
+
+The container executes the Playwright suite by default.
+
+The Playwright Docker image version is aligned with the Playwright package version used by the project to avoid browser/runtime compatibility issues.
+
+---
+
+## Assumptions
+
+The following assumptions were used when designing the suite:
+
+- Chromium is sufficient for the scope of this assessment.
+- The two Todos available on initial load are demo/default application data.
+- Todo state is expected to persist through browser reload using client-side storage.
+- Whitespace-only Todo titles should not create a Todo.
+- Duplicate Todo titles are considered valid unless product requirements state otherwise.
+- The Todo counter represents the number of active Todos.
+- Tests should remain independent and suitable for parallel execution.
+
+---
+
+## Scope and Exclusions
+
+### In Scope
+
+- Core Todo CRUD behavior
+- Complete/reopen behavior
+- Bulk actions
+- Filtering
+- Todo counter
+- UI state consistency
+- Persistence after reload
+- Parallel execution
+- CI execution
+- Docker execution
+- Reporting and failure evidence
+
+### Out of Scope
+
+For the scope and time constraints of the assessment, the following areas were not exhaustively covered:
+
+- Cross-browser testing beyond Chromium
+- Visual regression testing
+- Accessibility testing
+- Performance testing
+- Very long Todo titles
+- Duplicate-title edge cases
+- Leading/trailing whitespace normalization beyond whitespace-only input
+- Empty-title behavior during editing
+- Persistence after every possible operation
+- Browser back/forward navigation behavior
+- Extensive zero-state scenarios
+
+These would be candidates for additional coverage based on product risk and requirements.
+
+---
+
+## Technical Decisions
+
+### Page Object Model
+
+UI interaction logic is centralized in `TodoPage`.
+
+This reduces locator duplication and keeps the specification files focused on behavior and expected results.
+
+Assertions remain in the tests rather than inside the Page Object so that test intent remains explicit.
+
+### Test Isolation
+
+Tests do not depend on execution order or state created by another test.
+
+This enables reliable parallel execution and reduces cascading failures.
+
+### Known Defects
+
+When automation exposed reproducible product defects, the expected assertions were kept intact and the affected scenarios were marked with `test.fixme()`.
+
+This makes the limitation visible without changing the expected behavior simply to make the suite pass.
+
+### CI Dependency Installation
+
+CI uses:
+
+```bash
+npm ci
+```
+
+rather than `npm install` to ensure dependency installation follows the committed lock file and remains reproducible.
+
+### Chromium-only Execution
+
+Chromium was selected as the assessment browser to keep the suite focused and execution time reasonable.
+
+The framework can be extended with additional Playwright browser projects if cross-browser coverage becomes a requirement.
+
+---
+
+## What I Would Improve With More Time
+
+With additional time, I would:
+
+- Extend coverage to additional edge cases and validation scenarios.
+- Add Firefox and WebKit execution where cross-browser risk justifies it.
+- Investigate the shared root cause behind the defects affecting the default Todo items.
+- Add accessibility checks for critical user flows.
+- Add targeted visual regression coverage where UI regressions present meaningful risk.
+- Improve test-data setup so application state can be created more directly and efficiently where appropriate.
+- Expand reporting metadata with clearer feature/severity categorization.
+- Review CI execution metrics over multiple runs and optimize workers/retries based on observed stability rather than assumptions.
+
+---
+
+## Source Application
+
+The application under test originates from the Cypress Example Kitchen Sink project.
+
+Original repository:
+
+https://github.com/cypress-io/cypress-example-kitchensink
+
+The source application is retained for assessment purposes, while the submitted test automation, CI, Docker, reporting, and documentation are focused specifically on the Todo application.
+
+The original project license is retained in the repository.
