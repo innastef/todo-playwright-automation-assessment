@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+
+# Allure reporting
+allure-results/
+allure-report/
+
+# Environment files
+.env
+.env.*
+env/
+
+# IDE / editor files
+.vscode/
+.history/
+
+# macOS
+.DS_Store
+
+# Security / encrypted files
+*.aes

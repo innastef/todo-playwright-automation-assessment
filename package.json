@@ -1,0 +1,28 @@
+{
+  "name": "todo-playwright-automation-assessment",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright TypeScript automation assessment for the Todo application from the Cypress Example Kitchen Sink repository.",
+  "scripts": {
+    "start": "node ./scripts/start.js",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:list": "playwright test --list",
+    "typecheck": "tsc --noEmit",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "npm-run-all2": "9.0.3",
+    "serve": "14.2.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.5.0",
+    "allure-commandline": "^2.35.1",
+    "allure-playwright": "^3.4.2",
+    "typescript": "7.0.2"
+  }
+}
