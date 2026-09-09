@@ -1,4 +1,4 @@
-import { type Locator, type Page } from '@playwright/test';
+import { test, type Locator, type Page } from '@playwright/test';
 
 export class TodoPage {
   readonly page: Page;
@@ -48,7 +48,9 @@ export class TodoPage {
   }
 
   async open(): Promise<void> {
-    await this.page.goto('/todo');
+    await test.step('Open Todo application', async () => {
+      await this.page.goto('/todo');
+    });
   }
 
   todoItem(title: string): Locator {
@@ -64,69 +66,97 @@ export class TodoPage {
   }
 
   async addTodo(title: string): Promise<void> {
-    await this.newTodoInput.fill(title);
-    await this.newTodoInput.press('Enter');
+    await test.step(`Add Todo: "${title}"`, async () => {
+      await this.newTodoInput.fill(title);
+      await this.newTodoInput.press('Enter');
+    });
   }
 
   async completeTodo(title: string): Promise<void> {
-    await this.todoCheckbox(title).check();
+    await test.step(`Complete Todo: "${title}"`, async () => {
+      await this.todoCheckbox(title).check();
+    });
   }
 
   async reopenTodo(title: string): Promise<void> {
-    await this.todoCheckbox(title).uncheck();
+    await test.step(`Reopen Todo: "${title}"`, async () => {
+      await this.todoCheckbox(title).uncheck();
+    });
   }
 
   async editTodo(
     currentTitle: string,
     newTitle: string
   ): Promise<void> {
-    const todoItem = this.todoItem(currentTitle);
-    const todoLabel = todoItem.locator('label');
-    const editInput = todoItem.locator('input.edit');
+    await test.step(
+      `Edit Todo: "${currentTitle}" to "${newTitle}"`,
+      async () => {
+        const todoItem = this.todoItem(currentTitle);
+        const todoLabel = todoItem.locator('label');
+        const editInput = todoItem.locator('input.edit');
 
-    await todoLabel.dblclick();
-    await editInput.fill(newTitle);
-    await editInput.press('Enter');
+        await todoLabel.dblclick();
+        await editInput.fill(newTitle);
+        await editInput.press('Enter');
+      }
+    );
   }
 
   async cancelTodoEditing(
     currentTitle: string,
     temporaryTitle: string
   ): Promise<void> {
-    const todoItem = this.todoItem(currentTitle);
-    const todoLabel = todoItem.locator('label');
-    const editInput = todoItem.locator('input.edit');
+    await test.step(
+      `Cancel editing Todo: "${currentTitle}"`,
+      async () => {
+        const todoItem = this.todoItem(currentTitle);
+        const todoLabel = todoItem.locator('label');
+        const editInput = todoItem.locator('input.edit');
 
-    await todoLabel.dblclick();
-    await editInput.fill(temporaryTitle);
-    await editInput.press('Escape');
+        await todoLabel.dblclick();
+        await editInput.fill(temporaryTitle);
+        await editInput.press('Escape');
+      }
+    );
   }
 
   async deleteTodo(title: string): Promise<void> {
-    const todoItem = this.todoItem(title);
-    const deleteButton = todoItem.locator('button.destroy');
+    await test.step(`Delete Todo: "${title}"`, async () => {
+      const todoItem = this.todoItem(title);
+      const deleteButton = todoItem.locator('button.destroy');
 
-    await todoItem.hover();
-    await deleteButton.click();
+      await todoItem.hover();
+      await deleteButton.click();
+    });
   }
 
   async toggleAllTodos(): Promise<void> {
-    await this.toggleAllLabel.click();
+    await test.step('Toggle all Todos', async () => {
+      await this.toggleAllLabel.click();
+    });
   }
 
   async clearCompletedTodos(): Promise<void> {
-    await this.clearCompletedButton.click();
+    await test.step('Clear completed Todos', async () => {
+      await this.clearCompletedButton.click();
+    });
   }
 
   async selectAllFilter(): Promise<void> {
-    await this.allFilter.click();
+    await test.step('Select All filter', async () => {
+      await this.allFilter.click();
+    });
   }
 
   async selectActiveFilter(): Promise<void> {
-    await this.activeFilter.click();
+    await test.step('Select Active filter', async () => {
+      await this.activeFilter.click();
+    });
   }
 
   async selectCompletedFilter(): Promise<void> {
-    await this.completedFilter.click();
+    await test.step('Select Completed filter', async () => {
+      await this.completedFilter.click();
+    });
   }
 }
